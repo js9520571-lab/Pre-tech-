@@ -1,0 +1,78 @@
+import React, { useState, useEffect, useRef } from 'react';
+
+const JasmeetDashboard = () => {
+  const [rotation, setRotation] = useState(0);
+  const [theme, setTheme] = useState({ primary: '#FFD700', bg: '#050505' });
+
+  // Animation Loop for the "3D" effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRotation(prev => (prev + 2) % 360);
+    }, 30);
+    return () => clearInterval(interval);
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev.primary === '#FFD700' 
+      ? { primary: '#00F3FF', bg: '#00080a' } 
+      : { primary: '#FFD700', bg: '#050505' }
+    );
+  };
+
+  return (
+    <div style={{ 
+      width: '100%', 
+      height: '400px', 
+      backgroundColor: theme.bg, 
+      display: 'flex', 
+      flexDirection: 'column',
+      alignItems: 'center', 
+      justifyContent: 'center',
+      fontFamily: 'monospace',
+      borderRadius: '20px',
+      border: `2px solid ${theme.primary}33`,
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      {/* HUD Info */}
+      <div style={{ position: 'absolute', top: '20px', left: '20px', color: theme.primary }}>
+        <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>JASMEET PVT LTD</div>
+        <div style={{ fontSize: '0.7rem', opacity: 0.7 }}>QUANTUM ENGINE V1.0</div>
+      </div>
+
+      {/* The "3D" Object (CSS-3D) */}
+      <div style={{
+        width: '120px',
+        height: '120px',
+        border: `4px solid ${theme.primary}`,
+        boxShadow: `0 0 30px ${theme.primary}`,
+        transform: `rotateX(${rotation}deg) rotateY(${rotation}deg)`,
+        transition: 'transform 0.03s linear'
+      }}></div>
+
+      {/* Controls */}
+      <div style={{ marginTop: '50px', zIndex: 10 }}>
+        <button 
+          onClick={toggleTheme}
+          style={{
+            padding: '10px 20px',
+            background: 'transparent',
+            color: theme.primary,
+            border: `1px solid ${theme.primary}`,
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            borderRadius: '5px'
+          }}
+        >
+          SWITCH FREQUENCY
+        </button>
+      </div>
+
+      <div style={{ position: 'absolute', bottom: '20px', color: 'white', fontSize: '0.6rem', opacity: 0.4 }}>
+        ENCRYPTED SESSION // 2026_ESTATE_VALUATION
+      </div>
+    </div>
+  );
+};
+
+export default JasmeetDashboard;
